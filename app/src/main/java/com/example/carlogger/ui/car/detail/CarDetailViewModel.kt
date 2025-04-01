@@ -25,13 +25,13 @@ class CarDetailViewModel(
     private val carId: Long = savedStateHandle.get<Long>("carId") ?: 0L
 
     private val _car = MutableStateFlow<Car?>(null)
-    val car = _car.asStateFlow()
+    val car: StateFlow<Car?> = _car.asStateFlow()
 
     private val _maintenanceRecords = MutableStateFlow<List<MaintenanceRecord>>(emptyList())
-    val maintenanceRecords = _maintenanceRecords.asStateFlow()
+    val maintenanceRecords: StateFlow<List<MaintenanceRecord>> = _maintenanceRecords.asStateFlow()
 
     private val _carImages = MutableStateFlow<List<CarImage>>(emptyList())
-    val carImages = _carImages.asStateFlow()
+    val carImages: StateFlow<List<CarImage>> = _carImages.asStateFlow()
 
     init {
         loadCar()
@@ -90,6 +90,12 @@ class CarDetailViewModel(
     fun deleteMaintenanceRecord(record: MaintenanceRecord) {
         viewModelScope.launch {
             maintenanceRepository.deleteRecord(record)
+        }
+    }
+
+    fun deleteCar(car: Car) {
+        viewModelScope.launch {
+            carRepository.deleteCar(car)
         }
     }
 

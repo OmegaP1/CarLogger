@@ -39,14 +39,14 @@ class CarAdapter(
 
         init {
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onCarClicked(getItem(position))
                 }
             }
 
             binding.btnCarMenu.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onCarMenuClicked(getItem(position), it)
                 }

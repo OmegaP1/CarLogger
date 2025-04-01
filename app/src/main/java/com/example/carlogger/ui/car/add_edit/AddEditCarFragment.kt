@@ -15,12 +15,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import com.example.carlogger.R
 import com.example.carlogger.databinding.FragmentAddEditCarBinding
-import com.example.carlogger.ui.ViewModelFactory
 import kotlinx.coroutines.launch
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

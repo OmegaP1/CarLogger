@@ -40,14 +40,14 @@ class MaintenanceRecordsAdapter(
 
         init {
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onRecordClicked(getItem(position))
                 }
             }
 
             binding.btnRecordOptions.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onRecordMenuClicked(getItem(position), it)
                 }

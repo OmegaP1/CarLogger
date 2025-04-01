@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.carlogger.R
+import com.example.carlogger.data.model.Car
 import com.example.carlogger.databinding.FragmentCarDetailBinding
-import com.example.carlogger.ui.ViewModelFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -74,8 +74,8 @@ class CarDetailFragment : Fragment() {
         binding.fabEdit.setOnClickListener {
             findNavController().navigate(
                 CarDetailFragmentDirections.actionCarDetailToAddEditCar(
-                    args.carId,
-                    getString(R.string.edit_car)
+                    carId = args.carId,
+                    title = getString(R.string.edit_car)
                 )
             )
         }
@@ -87,9 +87,9 @@ class CarDetailFragment : Fragment() {
         binding.btnAddRecord.setOnClickListener {
             findNavController().navigate(
                 CarDetailFragmentDirections.actionCarDetailToAddEditMaintenanceRecord(
-                    args.carId,
-                    0L,
-                    getString(R.string.add_maintenance_record)
+                    carId = args.carId,
+                    recordId = 0L,
+                    title = getString(R.string.add_maintenance_record)
                 )
             )
         }
@@ -106,13 +106,13 @@ class CarDetailFragment : Fragment() {
 
                 launch {
                     viewModel.carImages.collect { images ->
-                        // Setup images adapter
+                        // TODO: Setup images adapter
                     }
                 }
 
                 launch {
                     viewModel.maintenanceRecords.collect { records ->
-                        // Setup maintenance records adapter
+                        // TODO: Setup maintenance records adapter
                     }
                 }
             }

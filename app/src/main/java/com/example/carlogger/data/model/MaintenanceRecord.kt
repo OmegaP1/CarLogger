@@ -4,9 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-/**
- * Entity representing a maintenance record in the database
- */
 @Entity(tableName = "maintenance_records")
 data class MaintenanceRecord(
     @PrimaryKey(autoGenerate = true)

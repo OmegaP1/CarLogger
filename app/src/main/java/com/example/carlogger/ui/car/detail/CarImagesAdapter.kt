@@ -42,14 +42,14 @@ class CarImagesAdapter(
 
         init {
             binding.imgCarImage.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onImageClicked(getItem(position), position)
                 }
             }
 
             binding.overlay.setOnLongClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     toggleOptionsVisibility(true)
                     listener.onImageOptionsClicked(getItem(position))
@@ -58,7 +58,7 @@ class CarImagesAdapter(
             }
 
             binding.btnSetPrimary.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     toggleOptionsVisibility(false)
                     listener.onSetPrimaryClicked(getItem(position))
@@ -66,7 +66,7 @@ class CarImagesAdapter(
             }
 
             binding.btnDeleteImage.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     toggleOptionsVisibility(false)
                     listener.onDeleteImageClicked(getItem(position))

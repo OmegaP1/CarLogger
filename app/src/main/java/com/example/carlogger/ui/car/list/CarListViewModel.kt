@@ -7,6 +7,7 @@ import com.example.carlogger.data.repository.CarRepository
 import com.example.carlogger.data.repository.ImageRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class CarListViewModel(
@@ -22,8 +23,8 @@ class CarListViewModel(
             carRepository.allCars.collect { cars ->
                 // Combine each car with its primary image
                 val carWithImagesList = cars.map { car ->
-                    val primaryImage = imageRepository.getPrimaryImageForCar(car.carId)
-                    CarWithImage(car, primaryImage.value)
+                    val primaryImage = imageRepository.getPrimaryImageForCar(car.carId).first()
+                    CarWithImage(car, primaryImage)
                 }
                 _carsWithImages.value = carWithImagesList
             }

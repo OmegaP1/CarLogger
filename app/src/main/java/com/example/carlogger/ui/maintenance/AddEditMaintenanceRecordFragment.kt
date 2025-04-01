@@ -15,12 +15,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.carlogger.R
 import com.example.carlogger.databinding.FragmentAddEditMaintenanceRecordBinding
-import com.example.carlogger.ui.ViewModelFactory
+import com.example.carlogger.data.model.MaintenanceRecord
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+
 
 class AddEditMaintenanceRecordFragment : Fragment() {
 
@@ -29,7 +30,7 @@ class AddEditMaintenanceRecordFragment : Fragment() {
 
     private val args: AddEditMaintenanceRecordFragmentArgs by navArgs()
     private val viewModel: AddEditMaintenanceRecordViewModel by viewModels {
-        SavedStateViewModelFactory(requireContext(), this, args.toBundle())
+        ViewModelFactory(requireContext(), this, args.toBundle())
     }
 
     override fun onCreateView(

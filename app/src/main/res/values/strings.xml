@@ -22,6 +22,7 @@
     <string name="color">Color</string>
     <string name="purchase_date">Purchase Date</string>
     <string name="notes">Notes</string>
+    <string name="add_car_photo">Add Car Photo</string>
 
     <!-- Add/Edit Car Screen -->
     <string name="add_car">Add Car</string>
