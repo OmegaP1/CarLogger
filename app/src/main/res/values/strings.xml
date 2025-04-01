@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CarLogger</string>
+
+    <!-- Car List Screen -->
+    <string name="no_cars_yet">No Cars Yet</string>
+    <string name="add_your_first_car">Add information about your vehicles to keep track of maintenance, service history, and more.</string>
+    <string name="add_your_first_car_button">Add Your First Car</string>
+    <string name="delete_car">Delete Car</string>
+    <string name="delete_car_confirmation">Are you sure you want to delete %1$s %2$s? This action cannot be undone.</string>
+
+    <!-- Car Detail Screen -->
+    <string name="car_info">Car Information</string>
+    <string name="maintenance_records">Maintenance Records</string>
+    <string name="images">Images</string>
+    <string name="add">Add</string>
+    <string name="edit_car">Edit Car</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="year">Year</string>
+    <string name="license_plate">License Plate</string>
+    <string name="color">Color</string>
+    <string name="purchase_date">Purchase Date</string>
+    <string name="notes">Notes</string>
+
+    <!-- Add/Edit Car Screen -->
+    <string name="add_car">Add Car</string>
+    <string name="required_field">This field is required</string>
+    <string name="invalid_year">Please enter a valid year</string>
+    <string name="save">Save</string>
+
+    <!-- Maintenance Record Screen -->
+    <string name="add_maintenance_record">Add Maintenance Record</string>
+    <string name="edit_maintenance_record">Edit Maintenance Record</string>
+    <string name="service_type">Service Type</string>
+    <string name="service_date">Service Date</string>
+    <string name="odometer">Odometer Reading</string>
+    <string name="cost">Cost</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Common -->
+    <string name="no_data">No data available</string>
+</resources>
