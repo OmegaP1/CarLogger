@@ -43,4 +43,8 @@
 
     <!-- Common -->
     <string name="no_data">No data available</string>
+
+    <!-- Format Strings -->
+    <string name="formatted_odometer">%1$s mi</string>
+    <string name="formatted_cost">$%1$.2f</string>
 </resources>
