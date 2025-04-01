@@ -13,15 +13,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.carlogger.R
 import com.example.carlogger.data.model.Car
+import com.example.carlogger.data.model.CarImage
+import com.example.carlogger.data.model.MaintenanceRecord
 import com.example.carlogger.databinding.FragmentCarDetailBinding
+import com.example.carlogger.ui.SavedStateViewModelFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class CarDetailFragment : Fragment() {
+class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecordListener, CarImagesAdapter.CarImageListener {
 
     private var _binding: FragmentCarDetailBinding? = null
     private val binding get() = _binding!!
@@ -31,12 +35,16 @@ class CarDetailFragment : Fragment() {
         SavedStateViewModelFactory(requireContext(), this, args.toBundle())
     }
 
+    private lateinit var maintenanceAdapter: MaintenanceRecordsAdapter
+    private lateinit var imagesAdapter: CarImagesAdapter
+
     // Image picking result
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            viewModel.addImage(it, isPrimary = viewModel.carImages.value.isEmpty())
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                viewModel.addImage(it, isPrimary = viewModel.carImages.value.isEmpty())
+            }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +58,7 @@ class CarDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        setupRecyclerViews()
         setupListeners()
         observeViewModel()
     }
@@ -65,8 +74,26 @@ class CarDetailFragment : Fragment() {
                     showDeleteConfirmationDialog()
                     true
                 }
+
                 else -> false
             }
+        }
+    }
+
+    private fun setupRecyclerViews() {
+        // Setup Maintenance Records RecyclerView
+        maintenanceAdapter = MaintenanceRecordsAdapter(this)
+        binding.rvMaintenanceRecords.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = maintenanceAdapter
+        }
+
+        // Setup Images RecyclerView
+        imagesAdapter = CarImagesAdapter(this)
+        binding.rvImages.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = imagesAdapter
         }
     }
 
@@ -106,16 +133,25 @@ class CarDetailFragment : Fragment() {
 
                 launch {
                     viewModel.carImages.collect { images ->
-                        // TODO: Setup images adapter
+                        imagesAdapter.submitList(images)
+                        updateImagesInViewPager(images)
                     }
                 }
 
                 launch {
                     viewModel.maintenanceRecords.collect { records ->
-                        // TODO: Setup maintenance records adapter
+                        maintenanceAdapter.submitList(records)
                     }
                 }
             }
+        }
+    }
+
+    private fun updateImagesInViewPager(images: List<CarImage>) {
+        // If we have images, set up a ViewPager adapter for them
+        if (images.isNotEmpty()) {
+            val adapter = CarImagePagerAdapter(images)
+            binding.viewpagerCarImages.adapter = adapter
         }
     }
 
@@ -147,6 +183,81 @@ class CarDetailFragment : Fragment() {
             .setPositiveButton(R.string.delete) { _, _ ->
                 viewModel.deleteCar(car)
                 findNavController().navigateUp()
+            }
+            .show()
+    }
+
+    // MaintenanceRecordsAdapter.MaintenanceRecordListener implementation
+    override fun onRecordClicked(record: MaintenanceRecord) {
+        // Navigate to edit maintenance record
+        findNavController().navigate(
+            CarDetailFragmentDirections.actionCarDetailToAddEditMaintenanceRecord(
+                carId = args.carId,
+                recordId = record.recordId,
+                title = getString(R.string.edit_maintenance_record)
+            )
+        )
+    }
+
+    override fun onRecordMenuClicked(record: MaintenanceRecord, itemView: View) {
+        val popupMenu = android.widget.PopupMenu(requireContext(), itemView)
+        popupMenu.menuInflater.inflate(R.menu.menu_maintenance_item, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_edit -> {
+                    onRecordClicked(record)
+                    true
+                }
+
+                R.id.action_delete -> {
+                    showDeleteRecordConfirmationDialog(record)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        popupMenu.show()
+    }
+
+    private fun showDeleteRecordConfirmationDialog(record: MaintenanceRecord) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete)
+            .setMessage(R.string.delete_maintenance_record_confirmation)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.delete) { _, _ ->
+                viewModel.deleteMaintenanceRecord(record)
+            }
+            .show()
+    }
+
+    // CarImagesAdapter.CarImageListener implementation
+    override fun onImageClicked(carImage: CarImage, position: Int) {
+        // Focus ViewPager on the clicked image
+        binding.viewpagerCarImages.currentItem = position
+    }
+
+    override fun onImageOptionsClicked(carImage: CarImage) {
+        // This is handled in the adapter
+    }
+
+    override fun onSetPrimaryClicked(carImage: CarImage) {
+        viewModel.setImageAsPrimary(carImage)
+    }
+
+    override fun onDeleteImageClicked(carImage: CarImage) {
+        showDeleteImageConfirmationDialog(carImage)
+    }
+
+    private fun showDeleteImageConfirmationDialog(carImage: CarImage) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete)
+            .setMessage(R.string.delete_image_confirmation)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.delete) { _, _ ->
+                viewModel.deleteImage(carImage)
             }
             .show()
     }

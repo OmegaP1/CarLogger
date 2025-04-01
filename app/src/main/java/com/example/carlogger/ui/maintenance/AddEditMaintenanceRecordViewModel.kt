@@ -60,7 +60,7 @@ class AddEditMaintenanceRecordViewModel(
         // }
     }
 
-    fun saveRecord() {
+    fun saveRecord(carId: Long) {
         viewModelScope.launch {
             val recordToSave = if (isEditMode) {
                 // Update existing record

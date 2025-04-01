@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.carlogger.R
 import com.example.carlogger.databinding.FragmentAddEditCarBinding
+import com.example.carlogger.ui.SavedStateViewModelFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -93,13 +94,34 @@ class AddEditCarFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.saveComplete.collect { isComplete ->
-                    if (isComplete) {
-                        findNavController().navigateUp()
-                        viewModel.resetSaveComplete()
+                launch {
+                    viewModel.car.collect { car ->
+                        car?.let { populateFormWithCar(it) }
+                    }
+                }
+
+                launch {
+                    viewModel.saveComplete.collect { isComplete ->
+                        if (isComplete) {
+                            findNavController().navigateUp()
+                            viewModel.resetSaveComplete()
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun populateFormWithCar(car: com.example.carlogger.data.model.Car) {
+        binding.etBrand.setText(car.brand)
+        binding.etModel.setText(car.model)
+        binding.etYear.setText(car.year.toString())
+        binding.etLicensePlate.setText(car.licensePlate)
+        binding.etColor.setText(car.color)
+        binding.etNotes.setText(car.notes)
+
+        car.purchaseDate?.let { date ->
+            binding.etPurchaseDate.setText(formatDate(date))
         }
     }
 
@@ -176,13 +198,8 @@ class AddEditCarFragment : Fragment() {
         viewModel.color.value = binding.etColor.text.toString().trim()
         viewModel.notes.value = binding.etNotes.text.toString().trim()
 
-        viewModel.saveCar()
-
-        // If we have a new image, save it after car is saved
-        selectedImageUri?.let { uri ->
-            // We would handle image saving here, typically through the ViewModel
-            // But we need to make sure the car is saved first to have a valid carId
-        }
+        // Save car with the selected image
+        viewModel.saveCar(selectedImageUri)
     }
 
     override fun onDestroyView() {

@@ -8,6 +8,8 @@
     <string name="add_your_first_car_button">Add Your First Car</string>
     <string name="delete_car">Delete Car</string>
     <string name="delete_car_confirmation">Are you sure you want to delete %1$s %2$s? This action cannot be undone.</string>
+    <string name="delete_maintenance_record_confirmation">Are you sure you want to delete this maintenance record?</string>
+    <string name="delete_image_confirmation">Are you sure you want to delete this image?</string>
 
     <!-- Car Detail Screen -->
     <string name="car_info">Car Information</string>

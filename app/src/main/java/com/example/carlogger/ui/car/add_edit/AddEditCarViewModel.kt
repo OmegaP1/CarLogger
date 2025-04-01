@@ -1,10 +1,12 @@
 package com.example.carlogger.ui.car.add_edit
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.carlogger.data.model.Car
 import com.example.carlogger.data.repository.CarRepository
+import com.example.carlogger.data.repository.ImageRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +15,7 @@ import java.util.Date
 
 class AddEditCarViewModel(
     private val carRepository: CarRepository,
+    private val imageRepository: ImageRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -57,7 +60,7 @@ class AddEditCarViewModel(
         }
     }
 
-    fun saveCar() {
+    fun saveCar(imageUri: Uri? = null) {
         viewModelScope.launch {
             val carToSave = if (isEditMode) {
                 // Update existing car
@@ -85,11 +88,22 @@ class AddEditCarViewModel(
             }
 
             carToSave?.let {
-                if (isEditMode) {
+                val savedCarId = if (isEditMode) {
                     carRepository.updateCar(it)
+                    carId
                 } else {
                     carRepository.insertCar(it)
                 }
+
+                // Save image if provided
+                imageUri?.let { uri ->
+                    imageRepository.saveImage(
+                        uri = uri,
+                        carId = savedCarId,
+                        isPrimary = true // Make this the primary image
+                    )
+                }
+
                 _saveComplete.value = true
             }
         }

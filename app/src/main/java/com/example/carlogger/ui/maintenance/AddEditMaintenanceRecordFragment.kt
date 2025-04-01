@@ -15,13 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.carlogger.R
 import com.example.carlogger.databinding.FragmentAddEditMaintenanceRecordBinding
-import com.example.carlogger.data.model.MaintenanceRecord
+import com.example.carlogger.ui.SavedStateViewModelFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
 
 class AddEditMaintenanceRecordFragment : Fragment() {
 
@@ -30,7 +29,7 @@ class AddEditMaintenanceRecordFragment : Fragment() {
 
     private val args: AddEditMaintenanceRecordFragmentArgs by navArgs()
     private val viewModel: AddEditMaintenanceRecordViewModel by viewModels {
-        ViewModelFactory(requireContext(), this, args.toBundle())
+        SavedStateViewModelFactory(requireContext(), this, args.toBundle())
     }
 
     override fun onCreateView(
@@ -123,7 +122,7 @@ class AddEditMaintenanceRecordFragment : Fragment() {
         }
     }
 
-    private fun populateFormWithRecord(record: MaintenanceRecord) {
+    private fun populateFormWithRecord(record: com.example.carlogger.data.model.MaintenanceRecord) {
         binding.spinnerServiceType.setText(record.serviceType, false)
         binding.etServiceDate.setText(formatDate(record.date))
         binding.etOdometer.setText(record.odometer.toString())
@@ -196,7 +195,7 @@ class AddEditMaintenanceRecordFragment : Fragment() {
         viewModel.location.value = binding.etLocation.text.toString().trim()
         viewModel.description.value = binding.etDescription.text.toString().trim()
 
-        viewModel.saveRecord()
+        viewModel.saveRecord(args.carId)
     }
 
     override fun onDestroyView() {

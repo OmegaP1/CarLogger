@@ -14,6 +14,7 @@ import com.example.carlogger.data.repository.MaintenanceRepository
 import com.example.carlogger.ui.car.add_edit.AddEditCarViewModel
 import com.example.carlogger.ui.car.detail.CarDetailViewModel
 import com.example.carlogger.ui.car.list.CarListViewModel
+import com.example.carlogger.ui.maintenance.AddEditMaintenanceRecordViewModel
 
 /**
  * Factory for creating ViewModels with necessary dependencies
@@ -69,7 +70,10 @@ class SavedStateViewModelFactory(
                 CarDetailViewModel(carRepository, maintenanceRepository, imageRepository, handle) as T
             }
             modelClass.isAssignableFrom(AddEditCarViewModel::class.java) -> {
-                AddEditCarViewModel(carRepository, handle) as T
+                AddEditCarViewModel(carRepository, imageRepository, handle) as T
+            }
+            modelClass.isAssignableFrom(AddEditMaintenanceRecordViewModel::class.java) -> {
+                AddEditMaintenanceRecordViewModel(maintenanceRepository, handle) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
