@@ -17,6 +17,7 @@ data class Car(
     val licensePlate: String,
     val purchaseDate: Date? = null,
     val color: String = "",
+    val horsepower: Int = 0,
     val notes: String = "",
     val lastUpdated: Date = Date()
 )

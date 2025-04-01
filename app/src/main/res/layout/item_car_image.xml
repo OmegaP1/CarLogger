@@ -34,6 +34,18 @@
             app:tint="?attr/colorPrimary"
             tools:visibility="visible" />
 
+        <!-- Quick Delete Button -->
+        <ImageButton
+            android:id="@+id/btn_quick_delete"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|start"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_button_background"
+            android:contentDescription="@string/delete"
+            app:srcCompat="@drawable/ic_delete"
+            app:tint="?attr/colorOnPrimary" />
+
         <View
             android:id="@+id/overlay"
             android:layout_width="match_parent"

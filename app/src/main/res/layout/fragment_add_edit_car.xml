@@ -145,6 +145,23 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Horsepower Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_horsepower"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/horsepower">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_horsepower"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- License Plate Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_license_plate"
@@ -182,20 +199,20 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Color Input -->
+            <!-- Color Input (Dropdown) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_color"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/color">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_color"
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"/>
+                    android:inputType="none"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -227,5 +244,10 @@
         android:layout_margin="16dp"
         android:text="@string/save"
         app:icon="@drawable/ic_add"/>
+
+    <!-- Loading Overlay -->
+    <include
+        android:id="@+id/loading_view"
+        layout="@layout/view_loading_overlay" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

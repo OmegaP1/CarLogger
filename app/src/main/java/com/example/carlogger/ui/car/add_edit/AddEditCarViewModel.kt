@@ -32,10 +32,14 @@ class AddEditCarViewModel(
     val licensePlate = MutableStateFlow("")
     val purchaseDate = MutableStateFlow<Date?>(null)
     val color = MutableStateFlow("")
+    val horsepower = MutableStateFlow(0)
     val notes = MutableStateFlow("")
 
     private val _saveComplete = MutableStateFlow(false)
     val saveComplete = _saveComplete.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
 
     init {
         if (isEditMode) {
@@ -44,6 +48,7 @@ class AddEditCarViewModel(
     }
 
     private fun loadCar() {
+        _isLoading.value = true
         viewModelScope.launch {
             carRepository.getCarById(carId).collect { loadedCar ->
                 _car.value = loadedCar
@@ -55,12 +60,15 @@ class AddEditCarViewModel(
                 licensePlate.value = loadedCar.licensePlate
                 purchaseDate.value = loadedCar.purchaseDate
                 color.value = loadedCar.color
+                horsepower.value = loadedCar.horsepower
                 notes.value = loadedCar.notes
+                _isLoading.value = false
             }
         }
     }
 
     fun saveCar(imageUri: Uri? = null) {
+        _isLoading.value = true
         viewModelScope.launch {
             val carToSave = if (isEditMode) {
                 // Update existing car
@@ -71,6 +79,7 @@ class AddEditCarViewModel(
                     licensePlate = licensePlate.value,
                     purchaseDate = purchaseDate.value,
                     color = color.value,
+                    horsepower = horsepower.value,
                     notes = notes.value,
                     lastUpdated = Date()
                 )
@@ -83,6 +92,7 @@ class AddEditCarViewModel(
                     licensePlate = licensePlate.value,
                     purchaseDate = purchaseDate.value,
                     color = color.value,
+                    horsepower = horsepower.value,
                     notes = notes.value
                 )
             }
@@ -104,6 +114,7 @@ class AddEditCarViewModel(
                     )
                 }
 
+                _isLoading.value = false
                 _saveComplete.value = true
             }
         }

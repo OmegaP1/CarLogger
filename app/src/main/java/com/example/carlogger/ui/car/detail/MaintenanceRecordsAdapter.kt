@@ -71,7 +71,7 @@ class MaintenanceRecordsAdapter(
             // Set description
             binding.tvDescription.text = record.description
 
-            // Format and set cost
+            // Format and set cost (updated to Euro)
             binding.tvCost.text = binding.root.context.getString(
                 R.string.formatted_cost,
                 record.cost

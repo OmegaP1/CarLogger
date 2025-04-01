@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -60,6 +61,7 @@ class AddEditCarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        setupColorDropdown()
         setupListeners()
         observeViewModel()
     }
@@ -68,6 +70,16 @@ class AddEditCarFragment : Fragment() {
         binding.toolbar.title = args.title
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupColorDropdown() {
+        val colors = resources.getStringArray(R.array.car_colors)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, colors)
+        binding.dropdownColor.setAdapter(adapter)
+
+        binding.dropdownColor.setOnItemClickListener { _, _, position, _ ->
+            viewModel.color.value = colors[position]
         }
     }
 
@@ -108,6 +120,13 @@ class AddEditCarFragment : Fragment() {
                         }
                     }
                 }
+
+                launch {
+                    viewModel.isLoading.collect { isLoading ->
+                        binding.loadingView.loadingOverlay.visibility = if (isLoading) View.VISIBLE else View.GONE
+                        binding.loadingView.loadingText.text = getString(R.string.saving_image)
+                    }
+                }
             }
         }
     }
@@ -117,7 +136,8 @@ class AddEditCarFragment : Fragment() {
         binding.etModel.setText(car.model)
         binding.etYear.setText(car.year.toString())
         binding.etLicensePlate.setText(car.licensePlate)
-        binding.etColor.setText(car.color)
+        binding.dropdownColor.setText(car.color, false)
+        binding.etHorsepower.setText(car.horsepower.toString())
         binding.etNotes.setText(car.notes)
 
         car.purchaseDate?.let { date ->
@@ -195,7 +215,8 @@ class AddEditCarFragment : Fragment() {
         viewModel.model.value = binding.etModel.text.toString().trim()
         viewModel.year.value = binding.etYear.text.toString().toIntOrNull() ?: 0
         viewModel.licensePlate.value = binding.etLicensePlate.text.toString().trim()
-        viewModel.color.value = binding.etColor.text.toString().trim()
+        viewModel.color.value = binding.dropdownColor.text.toString().trim()
+        viewModel.horsepower.value = binding.etHorsepower.text.toString().toIntOrNull() ?: 0
         viewModel.notes.value = binding.etNotes.text.toString().trim()
 
         // Save car with the selected image

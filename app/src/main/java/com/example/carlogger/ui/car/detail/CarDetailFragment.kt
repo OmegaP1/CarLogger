@@ -42,6 +42,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
     private val getContent =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
+                showLoading(true, R.string.saving_image)
                 viewModel.addImage(it, isPrimary = viewModel.carImages.value.isEmpty())
             }
         }
@@ -135,6 +136,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
                     viewModel.carImages.collect { images ->
                         imagesAdapter.submitList(images)
                         updateImagesInViewPager(images)
+                        showLoading(false)
                     }
                 }
 
@@ -143,8 +145,19 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
                         maintenanceAdapter.submitList(records)
                     }
                 }
+
+                launch {
+                    viewModel.isLoading.collect { isLoading ->
+                        showLoading(isLoading, R.string.loading_car_data)
+                    }
+                }
             }
         }
+    }
+
+    private fun showLoading(show: Boolean, stringResId: Int = R.string.loading) {
+        binding.loadingView.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
+        binding.loadingView.loadingText.setText(stringResId)
     }
 
     private fun updateImagesInViewPager(images: List<CarImage>) {
@@ -162,6 +175,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
         binding.tvYear.text = car.year.toString()
         binding.tvLicensePlate.text = car.licensePlate
         binding.tvColor.text = car.color
+        binding.tvHorsepower.text = if (car.horsepower > 0) "${car.horsepower} HP" else "-"
 
         car.purchaseDate?.let { date ->
             val format = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
@@ -181,6 +195,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
             .setMessage(getString(R.string.delete_car_confirmation, car.brand, car.model))
             .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(R.string.delete) { _, _ ->
+                showLoading(true, R.string.deleting)
                 viewModel.deleteCar(car)
                 findNavController().navigateUp()
             }
@@ -228,6 +243,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
             .setMessage(R.string.delete_maintenance_record_confirmation)
             .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(R.string.delete) { _, _ ->
+                showLoading(true, R.string.deleting)
                 viewModel.deleteMaintenanceRecord(record)
             }
             .show()
@@ -244,6 +260,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
     }
 
     override fun onSetPrimaryClicked(carImage: CarImage) {
+        showLoading(true)
         viewModel.setImageAsPrimary(carImage)
     }
 
@@ -257,6 +274,7 @@ class CarDetailFragment : Fragment(), MaintenanceRecordsAdapter.MaintenanceRecor
             .setMessage(R.string.delete_image_confirmation)
             .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(R.string.delete) { _, _ ->
+                showLoading(true, R.string.deleting)
                 viewModel.deleteImage(carImage)
             }
             .show()

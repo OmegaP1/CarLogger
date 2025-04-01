@@ -48,13 +48,12 @@ class CarImagesAdapter(
                 }
             }
 
-            binding.overlay.setOnLongClickListener {
+            binding.overlay.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     toggleOptionsVisibility(true)
                     listener.onImageOptionsClicked(getItem(position))
                 }
-                true
             }
 
             binding.btnSetPrimary.setOnClickListener {
@@ -69,6 +68,14 @@ class CarImagesAdapter(
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     toggleOptionsVisibility(false)
+                    listener.onDeleteImageClicked(getItem(position))
+                }
+            }
+
+            // Add a delete button to the card itself
+            binding.btnQuickDelete.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
                     listener.onDeleteImageClicked(getItem(position))
                 }
             }

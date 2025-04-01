@@ -33,7 +33,15 @@ class CarDetailViewModel(
     private val _carImages = MutableStateFlow<List<CarImage>>(emptyList())
     val carImages: StateFlow<List<CarImage>> = _carImages.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     init {
+        loadCarData()
+    }
+
+    private fun loadCarData() {
+        _isLoading.value = true
         loadCar()
         loadMaintenanceRecords()
         loadCarImages()
@@ -43,6 +51,7 @@ class CarDetailViewModel(
         viewModelScope.launch {
             carRepository.getCarById(carId).collect {
                 _car.value = it
+                _isLoading.value = false
             }
         }
     }
@@ -64,36 +73,44 @@ class CarDetailViewModel(
     }
 
     fun addImage(uri: Uri, description: String = "", isPrimary: Boolean = false) {
+        _isLoading.value = true
         viewModelScope.launch {
             imageRepository.saveImage(uri, carId, description, isPrimary)
         }
     }
 
     fun deleteImage(carImage: CarImage) {
+        _isLoading.value = true
         viewModelScope.launch {
             imageRepository.deleteImage(carImage)
         }
     }
 
     fun setImageAsPrimary(carImage: CarImage) {
+        _isLoading.value = true
         viewModelScope.launch {
             imageRepository.setAsPrimary(carImage)
         }
     }
 
     fun addMaintenanceRecord(record: MaintenanceRecord) {
+        _isLoading.value = true
         viewModelScope.launch {
             maintenanceRepository.insertRecord(record)
+            _isLoading.value = false
         }
     }
 
     fun deleteMaintenanceRecord(record: MaintenanceRecord) {
+        _isLoading.value = true
         viewModelScope.launch {
             maintenanceRepository.deleteRecord(record)
+            _isLoading.value = false
         }
     }
 
     fun deleteCar(car: Car) {
+        _isLoading.value = true
         viewModelScope.launch {
             carRepository.deleteCar(car)
         }
