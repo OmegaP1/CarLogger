@@ -1,10 +1,10 @@
-package com.yourname.carlogger.ui.car.add_edit
+package com.example.carlogger.ui.car.add_edit
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yourname.carlogger.data.model.Car
-import com.yourname.carlogger.data.repository.CarRepository
+import com.example.carlogger.data.model.Car
+import com.example.carlogger.data.repository.CarRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -2,22 +2,20 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     namespace = "com.example.carlogger"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.example.carlogger"
         minSdk = 33
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -36,6 +34,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 }
 
@@ -45,15 +44,12 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-
     // UI components
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-
     // Image loading
     implementation(libs.coil)
     implementation(libs.androidx.navigation.fragment.ktx)

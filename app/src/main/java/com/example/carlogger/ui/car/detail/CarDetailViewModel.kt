@@ -1,15 +1,15 @@
-package com.yourname.carlogger.ui.car.detail
+package com.example.carlogger.ui.car.detail
 
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yourname.carlogger.data.model.Car
-import com.yourname.carlogger.data.model.CarImage
-import com.yourname.carlogger.data.model.MaintenanceRecord
-import com.yourname.carlogger.data.repository.CarRepository
-import com.yourname.carlogger.data.repository.ImageRepository
-import com.yourname.carlogger.data.repository.MaintenanceRepository
+import com.example.carlogger.data.model.Car
+import com.example.carlogger.data.model.CarImage
+import com.example.carlogger.data.model.MaintenanceRecord
+import com.example.carlogger.data.repository.CarRepository
+import com.example.carlogger.data.repository.ImageRepository
+import com.example.carlogger.data.repository.MaintenanceRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
