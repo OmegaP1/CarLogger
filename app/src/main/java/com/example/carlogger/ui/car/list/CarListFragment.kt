@@ -1,4 +1,4 @@
-package com.yourname.carlogger.ui.car.list
+package com.example.carlogger.ui.car.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +13,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.yourname.carlogger.R
-import com.yourname.carlogger.data.model.Car
-import com.yourname.carlogger.databinding.FragmentCarListBinding
-import com.yourname.carlogger.ui.ViewModelFactory
+import com.example.carlogger.R
+import com.example.carlogger.data.model.Car
+import com.example.carlogger.databinding.FragmentCarListBinding
+import com.example.carlogger.ui.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class CarListFragment : Fragment(), CarAdapter.CarItemListener {

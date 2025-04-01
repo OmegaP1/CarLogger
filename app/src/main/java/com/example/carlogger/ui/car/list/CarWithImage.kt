@@ -1,7 +1,7 @@
-package com.yourname.carlogger.ui.car.list
+package com.example.carlogger.ui.car.list
 
-import com.yourname.carlogger.data.model.Car
-import com.yourname.carlogger.data.model.CarImage
+import com.example.carlogger.data.model.Car
+import com.example.carlogger.data.model.CarImage
 
 data class CarWithImage(
     val car: Car,

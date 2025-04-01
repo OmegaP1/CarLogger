@@ -1,4 +1,4 @@
-package com.yourname.carlogger.ui.car.list
+package com.example.carlogger.ui.car.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.yourname.carlogger.R
-import com.yourname.carlogger.databinding.ItemCarBinding
+import com.example.carlogger.R
+import com.example.carlogger.databinding.ItemCarBinding
 import java.io.File
 
 class CarAdapter(
