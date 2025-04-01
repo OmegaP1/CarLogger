@@ -38,7 +38,7 @@
     <string name="edit_maintenance_record">Edit Maintenance Record</string>
     <string name="service_type">Service Type</string>
     <string name="service_date">Service Date</string>
-    <string name="odometer">Odometer Reading</string>
+    <string name="odometer">Km Reading</string>
     <string name="cost">Cost</string>
     <string name="location">Location</string>
     <string name="description">Description</string>
