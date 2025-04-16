@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
         app:srcCompat="@drawable/ic_car_logo" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -25,17 +26,20 @@
         app:indicatorColor="@color/md_theme_onPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splash_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/app_name_text" />
 
     <TextView
+        android:id="@+id/app_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/app_name"
-        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+        android:textAppearance="?attr/textAppearanceHeadlineLarge"
         android:textColor="@color/md_theme_onPrimary"
+        android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_indicator" />
+        app:layout_constraintTop_toBottomOf="@+id/splash_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

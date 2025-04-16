@@ -33,4 +33,10 @@
     <color name="md_theme_inverseOnSurface">#F0F0F4</color>
     <color name="md_theme_inverseSurface">#2F3033</color>
     <color name="md_theme_inversePrimary">#91CDFF</color>
+
+    <!-- Added text colors for better readability -->
+    <color name="text_primary">#1A1C1E</color>
+    <color name="text_secondary">#333639</color>
+    <color name="car_name_overlay">#2d2d2d</color>
+    <color name="car_name_text">#FFFFFF</color>
 </resources>

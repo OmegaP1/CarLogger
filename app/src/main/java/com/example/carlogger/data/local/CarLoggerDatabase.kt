@@ -22,7 +22,7 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 
 @Database(
     entities = [Car::class, MaintenanceRecord::class, CarImage::class],
-    version = 2, // Updated from 1 to 2
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
